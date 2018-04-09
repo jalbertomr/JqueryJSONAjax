@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JQuery JSON</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>JQUERY y JSON</h1>
+
+<form id="theForm">
+<select id="emisora">
+  <option value="porllenar" selected >Por Llenar</option>
+</select><br>
+<button type="button" id="btn">obten Datos Json</button>
+</form>
+
+<div id="customers">Informacion de Clientes</div>
+
+<script type="text/javascript">
+$("document").ready(function() {
+  $("#btn").on("click",getJsonFromServer);
+});
+
+
+function getJsonFromServer() {
+var url = 'http://www.filltext.com/?rows=5&id={index}&firstName={firstName}&lastName={lastName}&street={streetAddress}&city={city}&zip={zip}';
+var urlparametrizada = 'http://www.filltext.com/?callback=?';
+var parametros = {'rows':50,
+'id': '{index}',
+'firstName': '{firstName}',
+'lastName': '{lastName}',
+'street': '{streetAddress}',
+'city': '{city}',
+'zip': '{zip}'
+};
+$.getJSON( urlparametrizada, parametros )
+    .done( function(data) {
+    $('#emisora').empty();
+
+    $.each(data, function(i, item){
+        $('#emisora').append($('<option>', {
+            value: item.fistName,
+            text: item.firstName
+        }));
+        $('<div class="id"></div>').html('id: '+item.id).appendTo('#customers');
+        $('<div class="firstName"></div>').html('nombre: '+item.firstName).appendTo('#customers');
+        $('<div class="lastName"></div>').html('Apellido: '+item.lastName).appendTo('#customers');
+        $('<div class="street"></div>').html('calle: '+item.street).appendTo('#customers');
+        $('<div class="city"></div>').html('ciudad: '+item.city).appendTo('#customers');
+        $('<div class="zip"></div>').html('zip: ' +item.zip).appendTo('#customers');
+    });
+});
+}
+
+
+
+</script>
+</body>
+</html>
