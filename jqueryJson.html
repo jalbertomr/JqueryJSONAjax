@@ -26,14 +26,20 @@ $("document").ready(function() {
 
 function getJsonFromServer() {
 var url = 'http://www.filltext.com/?rows=5&id={index}&firstName={firstName}&lastName={lastName}&street={streetAddress}&city={city}&zip={zip}';
+var urlRandom = 'http://www.filltext.com/?rows=!10&id={index}&firstName={firstName}&lastName={lastName}&street={streetAddress}&city={city}&zip={zip}';
+var urlconSubSet = 'http://www.filltext.com/?rows=5&id={index}&firstName={firstName}&lastName={lastName}&@amigos={rows=5*name={firstName}}&street={streetAddress}&city={city}&zip={zip}';
+var urlconSubSetRandom = 'http://www.filltext.com/?rows=5&id={index}&firstName={firstName}&lastName={lastName}&@amigos={rows={randomDecimal|5}*name={firstName}}&street={streetAddress}&city={city}&zip={zip}';
+var urlRandomconSubSetRandom = 'http://www.filltext.com/?rows=!5&id={index}&firstName={firstName}&lastName={lastName}&@amigos={rows={randomDecimal|5}*name={firstName}}&street={streetAddress}&city={city}&zip={zip}';
+
+
 var urlparametrizada = 'http://www.filltext.com/?callback=?';
-var parametros = {'rows':50,
+var parametros = {'rows':'!50',
 'id': '{index}',
-'firstName': '{firstName}',
-'lastName': '{lastName}',
-'street': '{streetAddress}',
-'city': '{city}',
-'zip': '{zip}'
+'nombre': '{firstName}',
+'apellido': '{lastName}',
+'direccion': '{streetAddress}',
+'ciudad': '{city}',
+'CP': '{zip}'
 };
 $.getJSON( urlparametrizada, parametros )
     .done( function(data) {
@@ -41,15 +47,15 @@ $.getJSON( urlparametrizada, parametros )
 
     $.each(data, function(i, item){
         $('#emisora').append($('<option>', {
-            value: item.fistName,
-            text: item.firstName
+            value: item.nombre,
+            text: item.nombre
         }));
         $('<div class="id"></div>').html('id: '+item.id).appendTo('#customers');
-        $('<div class="firstName"></div>').html('nombre: '+item.firstName).appendTo('#customers');
-        $('<div class="lastName"></div>').html('Apellido: '+item.lastName).appendTo('#customers');
-        $('<div class="street"></div>').html('calle: '+item.street).appendTo('#customers');
-        $('<div class="city"></div>').html('ciudad: '+item.city).appendTo('#customers');
-        $('<div class="zip"></div>').html('zip: ' +item.zip).appendTo('#customers');
+        $('<div class="firstName"></div>').html('nombre: '+item.nombre).appendTo('#customers');
+        $('<div class="lastName"></div>').html('Apellido: '+item.apellido).appendTo('#customers');
+        $('<div class="street"></div>').html('calle: '+item.direccion).appendTo('#customers');
+        $('<div class="city"></div>').html('ciudad: '+item.ciudad).appendTo('#customers');
+        $('<div class="zip"></div>').html('CP: ' +item.CP).appendTo('#customers');
     });
 });
 }
