@@ -1,0 +1,12 @@
+* {
+    padding: 0px 10px 0px 10px;
+}
+
+#tableData td {
+    background-color: aqua;
+    border: 1px solid black;
+}
+
+#tableData tr:hover {
+    background-color: yellow;
+}

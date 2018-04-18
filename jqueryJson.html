@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>JQuery JSON</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/stylesjqueryjson.css" />
 </head>
 <body>
 
@@ -14,6 +15,7 @@
   <option value="porllenar" selected >Por Llenar</option>
 </select><br>
 <button type="button" id="btn">obten Datos Json</button>
+<button type="button" id="btnlocal">obten Datos Json Local</button>
 </form>
 
 <div id="customers">Informacion de Clientes</div>
@@ -21,6 +23,7 @@
 <script type="text/javascript">
 $("document").ready(function() {
   $("#btn").on("click",getJsonFromServer);
+  $("#btnlocal").on("click",getJsonFromLocal);
 });
 
 
@@ -30,7 +33,6 @@ var urlRandom = 'http://www.filltext.com/?rows=!10&id={index}&firstName={firstNa
 var urlconSubSet = 'http://www.filltext.com/?rows=5&id={index}&firstName={firstName}&lastName={lastName}&@amigos={rows=5*name={firstName}}&street={streetAddress}&city={city}&zip={zip}';
 var urlconSubSetRandom = 'http://www.filltext.com/?rows=5&id={index}&firstName={firstName}&lastName={lastName}&@amigos={rows={randomDecimal|5}*name={firstName}}&street={streetAddress}&city={city}&zip={zip}';
 var urlRandomconSubSetRandom = 'http://www.filltext.com/?rows=!5&id={index}&firstName={firstName}&lastName={lastName}&@amigos={rows={randomDecimal|5}*name={firstName}}&street={streetAddress}&city={city}&zip={zip}';
-
 
 var urlparametrizada = 'http://www.filltext.com/?callback=?';
 var parametros = {'rows':'!50',
@@ -44,6 +46,7 @@ var parametros = {'rows':'!50',
 $.getJSON( urlparametrizada, parametros )
     .done( function(data) {
     $('#emisora').empty();
+    $('#customers').empty();
 
     $.each(data, function(i, item){
         $('#emisora').append($('<option>', {
@@ -60,7 +63,43 @@ $.getJSON( urlparametrizada, parametros )
 });
 }
 
+function getJsonFromLocal() {
+var urllocal = 'data2.json';
 
+$.getJSON( urllocal)
+    .done( function( data){
+    $('#emisora').empty();
+    $('#customers').empty();
+
+    $('<table id="tableData">').appendTo('#customers');
+    $('<thead><tr>').appendTo('#customers');
+    $('<td colspan="6">').html('Columnas de Datos de Tabla').appendTo('#customers');
+    $('</td>').appendTo('#customers');
+    $('</tr></thead>').appendTo('#customers');
+
+    $('<tbody><tr><td>Id</td><td>Nombre</td><td>Apellido</td><td>Calle</td><td>Ciudad</td><td>CP</td></tr>').appendTo('#customers');
+
+    $.each(data, function(i, item){
+        $('<tr>').appendTo('#customers');
+        $('<td></td>').html(item.id).appendTo('#customers');
+        $('<td></td>').html(item.firstName).appendTo('#customers');
+        $('<td></td>').html(item.lastName).appendTo('#customers');
+        $('<td></td>').html(item.street).appendTo('#customers');
+        $('<td></td>').html(item.city).appendTo('#customers');
+        $('<td></td>').html(item.zip).appendTo('#customers');
+        $('</tr>').appendTo('#customers');
+    });
+
+    $('</tbody>').appendTo('#customers');
+
+    $('<tfoot><tr>').appendTo('#customers');
+    $('<td colspan="6">').html('Footer de la Tabla').appendTo('#customers');
+    $('</td>').appendTo('#customers');
+    $('</tr></tfoot>').appendTo('#customers');
+    $('</table>').appendTo('#customers');
+
+});
+}
 
 </script>
 </body>
